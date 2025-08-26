@@ -23,10 +23,10 @@ with io.open(file, mode="r", encoding="utf-8") as f:
 
     temp_data = np.array(temp_data).T
 
-    for line in f:
-        temp_arr_str = line.split()
-        temp_arr_float = [float(thing) for thing in temp_arr_str]
-        temp_data.append(temp_arr_float)
+    # for line in f:
+    #     temp_arr_str = line.split()
+    #     temp_arr_float = [float(thing) for thing in temp_arr_str]
+    #     temp_data.append(temp_arr_float)
 
 data = np.array(temp_data)
 var1 = data[:, 0:77]
