@@ -11,12 +11,12 @@ start_time = time.time()
 
 
 ### MAIN FXN ###
-def MPI_III_rotation():
+def MPI_IV_rotation():
     # original vector in the original frame; i think I can prob change this to like load in a data file or something?
     v = np.array([1, 1, 0])
 
     # establish vars
-    y_deg = -90
+    y_deg = 180
     z_deg = 90
 
     # deg to rad
@@ -40,12 +40,12 @@ def MPI_III_rotation():
     ])
 
     #combined matrix
-    DCM_MPI_3 = np.dot(DCM_z, DCM_y)
+    DCM_MPI_4 = np.dot(DCM_z, DCM_y)
 
-    v_in_new_frame = DCM_MPI_3.T @ v
+    v_in_new_frame = DCM_MPI_4.T @ v
 
     print("vector rotated:", v_in_new_frame)
 
 
-MPI_III_rotation()
+MPI_IV_rotation()
 
