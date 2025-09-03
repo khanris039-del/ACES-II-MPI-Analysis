@@ -1,5 +1,5 @@
 # --- txt_raw_MPI_Data_to_cdf.py ---
-# Description: takes the ACES-II raw MPI data in .txtx files and converts them into .cdf files using spacetoolslibrary.
+# Description: takes the ACES-II raw MPI data in .txt files and converts them into .cdf files using spacetoolslibrary.
 
 
 # --- --- ---

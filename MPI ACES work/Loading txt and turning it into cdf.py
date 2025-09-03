@@ -14,7 +14,7 @@ text_file_paths = glob(path_to_folder+'\\*.txt*')
 
 
 # Load JUST ONE .txt file
-file = text_file_paths[1] # note: index 1 is the data description
+file = text_file_paths[0] # note: index 1 is the data description
 temp_data = []
 
 with io.open(file, mode="r", encoding="utf-8") as f:
