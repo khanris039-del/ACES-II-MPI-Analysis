@@ -60,8 +60,8 @@ def txt_raw_MPI_Data_to_cdf():
 
         data_dict_output = {**data_dict_output,
                             **{f'Epoch_MPI{counter}':[np.array(Epoch),{'LABLAXIS':'Epoch','UNITS':None,'DEPEND_0':f'Epoch_MPI{counter}'}],
-                               f'Vx_rkt_MPI{counter}':[np.array(Epoch),{'LABLAXIS':'Vx in m/s in rocket frame','UNITS':'m/s','DEPEND_0':f'Epoch_MPI{counter}'}],
-                               f'Vy_rkt_MPI{counter}':[np.array(Epoch),{'LABLAXIS':'Vxy in m/s in rocket frame','UNITS':'m/s','DEPEND_0':f'Epoch_MPI{counter}'}]}
+                               f'Vx_rkt_MPI{counter}':[np.array(temp_data[1]),{'LABLAXIS':'Vx in m/s in rocket frame','UNITS':'m/s','DEPEND_0':f'Epoch_MPI{counter}'}],
+                               f'Vy_rkt_MPI{counter}':[np.array(temp_data[2]),{'LABLAXIS':'Vxy in m/s in rocket frame','UNITS':'m/s','DEPEND_0':f'Epoch_MPI{counter}'}]}
                             }
 
 
@@ -69,7 +69,7 @@ def txt_raw_MPI_Data_to_cdf():
 
     # write out the data
     stl.prgMsg('Writing out the Data')
-    outputPath = r'C:\Users\riskh\OneDrive - University of Iowa\ACESII-MPI Project\\'
+    outputPath = r'C:\Users\riskh\OneDrive - University of Iowa\ACESII-MPI Project\DATA_LOAD\\'
     file_out_name = 'ACES_II_36364_l3_MPI.cdf'
     stl.outputCDFdata(outputPath=outputPath+file_out_name, data_dict=data_dict_output)
     stl.Done(start_time)

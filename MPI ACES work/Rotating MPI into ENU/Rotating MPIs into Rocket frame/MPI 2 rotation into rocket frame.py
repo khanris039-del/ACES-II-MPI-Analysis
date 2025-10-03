@@ -19,13 +19,13 @@ def MPI_II_rotation():
 
     # DCM for rotating abt x axis
 
-    DCM_z = np.array([
+    mat_z = np.array([
         [np.cos(theta_z), -np.sin(theta_z), 0],
         [np.sin(theta_z), np.cos(theta_z), 0],
         [0, 0, 1]
     ])
 
-    v_in_new_frame = DCM_z.T @ v
+    v_in_new_frame = mat_z.T @ v
 
     print("vector rotated about z_axis:", v_in_new_frame)
 

@@ -23,26 +23,26 @@ def MPI_III_rotation():
     theta_y = np.deg2rad(y_deg)
     theta_z = np.deg2rad(z_deg)
 
-    # DCM for rotating abt y axis
+    # mat for rotating abt y axis
 
-    DCM_y = np.array([
+    mat_y = np.array([
         [np.cos(theta_y), 0, np.sin(theta_y)],
         [0, 1, 0],
         [-np.sin(theta_y), 0, np.cos(theta_y)]
     ])
 
-    # DCM for rotating abt z axis
+    # mat for rotating abt z axis
 
-    DCM_z = np.array([
+    mat_z = np.array([
         [np.cos(theta_z), -np.sin(theta_z), 0],
         [np.sin(theta_z), np.cos(theta_z), 0],
         [0, 0, 1]
     ])
 
     #combined matrix
-    DCM_MPI_3 = np.dot(DCM_z, DCM_y)
+    mat_MPI_3 = np.dot(mat_z, mat_y)
 
-    v_in_new_frame = DCM_MPI_3.T @ v
+    v_in_new_frame = mat_MPI_3.T @ v
 
     print("vector rotated:", v_in_new_frame)
 
