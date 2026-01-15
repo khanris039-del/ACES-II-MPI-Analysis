@@ -22,7 +22,7 @@ def txt_raw_MPI_Data_to_cdf():
 
     # Load in the .txt files
     stl.prgMsg('Loading the Data')
-    path_to_data = r'C:\Users\riskh\OneDrive - University of Iowa\ACESII-MPI Project\\'
+    path_to_data = r'C:\Users\riskh\OneDrive - University of Iowa\ACESII-MPI Project\L0 Raw\\'
     data_file_names = glob(path_to_data + '*MPI*' + '*.txt')
 
 
@@ -44,7 +44,7 @@ def txt_raw_MPI_Data_to_cdf():
         temp_data = np.array(temp_data).T
 
         # Correct T0 point of Epoch in temp_data
-        T0 = dt.datetime(1900, 1, 1, 1, 1, 1)
+        T0 = dt.datetime(1900, 1, 1)
         Epoch = np.array([T0 + dt.timedelta(seconds=tme) for tme in temp_data[0]])
 
 
@@ -60,8 +60,8 @@ def txt_raw_MPI_Data_to_cdf():
 
         data_dict_output = {**data_dict_output,
                             **{f'Epoch_MPI{counter}':[np.array(Epoch),{'LABLAXIS':'Epoch','UNITS':None,'DEPEND_0':f'Epoch_MPI{counter}'}],
-                               f'Vx_rkt_MPI{counter}':[np.array(temp_data[1]),{'LABLAXIS':'Vx in m/s in rocket frame','UNITS':'m/s','DEPEND_0':f'Epoch_MPI{counter}'}],
-                               f'Vy_rkt_MPI{counter}':[np.array(temp_data[2]),{'LABLAXIS':'Vxy in m/s in rocket frame','UNITS':'m/s','DEPEND_0':f'Epoch_MPI{counter}'}]}
+                               f'Vx_instr_MPI{counter}':[np.array(temp_data[1]),{'LABLAXIS':'Vx in m/s in instr frame','UNITS':'m/s','DEPEND_0':f'Epoch_MPI{counter}'}],
+                               f'Vy_instr_MPI{counter}':[np.array(temp_data[2]),{'LABLAXIS':'Vxy in m/s in instr frame','UNITS':'m/s','DEPEND_0':f'Epoch_MPI{counter}'}]}
                             }
 
 
@@ -69,8 +69,8 @@ def txt_raw_MPI_Data_to_cdf():
 
     # write out the data
     stl.prgMsg('Writing out the Data')
-    outputPath = r'C:\Users\riskh\OneDrive - University of Iowa\ACESII-MPI Project\DATA_LOAD\\'
-    file_out_name = 'ACES_II_36364_l3_MPI.cdf'
+    outputPath = r'C:\Users\riskh\OneDrive - University of Iowa\ACESII-MPI Project\L1 instr\\'
+    file_out_name = 'ACES_II_36364_l1_MPI_instrFrm.cdf'
     stl.outputCDFdata(outputPath=outputPath+file_out_name, data_dict=data_dict_output)
     stl.Done(start_time)
 

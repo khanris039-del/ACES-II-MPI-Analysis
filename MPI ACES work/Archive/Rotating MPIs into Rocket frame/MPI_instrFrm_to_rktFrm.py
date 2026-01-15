@@ -24,8 +24,8 @@ def MPI_instrFrm_to_rktFrm():
 
     #Load in the .cdf files
     stl.prgMsg('Loading the data')
-    path_to_data = r'C:\Users\riskh\OneDrive - University of Iowa\ACESII-MPI Project\DATA_LOAD\\'
-    file_name = glob(path_to_data + "*.cdf*")[0]
+    path_to_data = r'C:\Users\riskh\OneDrive - University of Iowa\ACESII-MPI Project\L1 instr\\'
+    file_name = glob(path_to_data + "ACES_II_36364_l1_MPI_instrFrm.cdf")[0]
     data_dict = stl.loadDictFromFile(file_name)
     stl.Done(start_time)
     print(file_name)
@@ -43,8 +43,8 @@ def MPI_instrFrm_to_rktFrm():
     stl.prgMsg('Rotating MPI Data')
     for idx in range(4):
 
-        Vx = data_dict[f'Vx_rkt_MPI{idx+1}'][0]
-        Vy = data_dict[f'Vy_rkt_MPI{idx + 1}'][0]
+        Vx = data_dict[f'Vx_instr_MPI{idx+1}'][0]
+        Vy = data_dict[f'Vy_instr_MPI{idx + 1}'][0]
         Vz = np.zeros(shape=len(Vx))
         vec_instr = np.array([Vx,Vy,Vz]).T
         print(vec_instr[0])
@@ -82,8 +82,8 @@ def MPI_instrFrm_to_rktFrm():
 
     #write out the data
     stl.prgMsg('Writing out the data')
-    outputPath = r'C:\Users\riskh\OneDrive - University of Iowa\ACESII-MPI Project\DATA_LOAD\\'
-    file_out_name = 'ACESII_36364_l1_MPI_rktFrm.cdf'
+    outputPath = r'C:\Users\riskh\OneDrive - University of Iowa\ACESII-MPI Project\L2 Rocket\\'
+    file_out_name = 'ACESII_36364_l2_MPI_rktFrm.cdf'
     stl.outputCDFdata(outputPath=outputPath+file_out_name, data_dict=data_dict_output)
     stl.Done(start_time)
 
