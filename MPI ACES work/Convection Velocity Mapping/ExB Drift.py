@@ -3,7 +3,11 @@ from glob import glob
 import spaceToolsLib as stl
 import numpy as np
 from copy import deepcopy
+import datetime as dt
 
+#decorate my func
+from timebudget import timebudget
+@timebudget
 def ExB_Drift():
 
     # load the data
@@ -13,32 +17,45 @@ def ExB_Drift():
     data_dict_E = stl.loadDictFromFile(path_to_E)
     data_dict_B = stl.loadDictFromFile(path_to_B)
 
-    print(data_dict_E.keys())
-    print(data_dict_B.keys())
-
 
     # Extract arrays
     vecE = np.array([
             data_dict_E['E_E'][0],
             data_dict_E['E_N'][0],
-            data_dict_E['E_U'][0],
+            data_dict_E['E_Up'][0],
         ])
 
-    vecB = np.array([
-            data_dict_E['B_E'][0],
-            data_dict_E['B_N'][0],
-            data_dict_E['B_Up'][0],
+    vecB = (np.array([
+            data_dict_B['B_E'][0],
+            data_dict_B['B_N'][0],
+            data_dict_B['B_U'][0],
+        ]) +
+            np.array([
+            data_dict_B['B_model_E'][0],
+            data_dict_B['B_model_N'][0],
+            data_dict_B['B_model_U'][0],
         ])
+            )* (1E-9)
+
+    #turn dt into secs
+    T0 = dt.datetime(2022, 11, 20, 17, 20)
+
+    B_Epoch_T0 = stl.EpochTo_T0_Rocket(data_dict_B['Epoch'][0], T0=T0)
+    E_Epoch_T0 = stl.EpochTo_T0_Rocket(data_dict_E['Epoch'][0], T0=T0)
+
+    # interpolate E onto B so they are the same size
 
 
+    vecE_interp = [[], [], []]
+    for i in range(3):
+        vecE_interp[i] = np.interp(B_Epoch_T0, E_Epoch_T0, vecE[i])
+    vecE_interp = np.array(vecE_interp)
 
-    Epoch = data_dict_E['Epoch'][0]
 
     # Compute ExB drift
-    ExB = np.cross(E, B)
-    Bmag2 = np.sum(B**2, axis=1)[:, None]
-
-    Drift = ExB / Bmag2
+    ExB = np.cross(vecE_interp, vecB, axis = 0)
+    Bmag_sq = (np.square(data_dict_B['Bmag'][0])) * (1E-18)
+    Drift = ExB / Bmag_sq
 
     # Prepare output
     example_attrs = {
@@ -48,8 +65,10 @@ def ExB_Drift():
     }
 
     data_dict_output = {
-        'Epoch': [Epoch, data_dict_E['Epoch'][1]],
-        'Drift_ENU': [Drift, deepcopy(example_attrs)]
+        'Epoch': [data_dict_B['Epoch'][0], data_dict_B['Epoch'][1]],
+        'Drift_E': [Drift[0], deepcopy(example_attrs)],
+        'Drift_N': [Drift[1], deepcopy(example_attrs)],
+        'Drift_U': [Drift[2], deepcopy(example_attrs)]
     }
 
     outputPath = r'C:\Users\riskh\OneDrive - University of Iowa\ACESII-MPI Project\Convection Velocity\L3\\'
