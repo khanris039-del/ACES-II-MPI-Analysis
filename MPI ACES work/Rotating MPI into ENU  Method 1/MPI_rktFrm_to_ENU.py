@@ -3,6 +3,7 @@ import numpy as np
 from copy import deepcopy
 import spaceToolsLib as stl
 from scipy.interpolate import CubicSpline
+import datetime as dt
 
 
 def MPI_rktFrm_to_ENU():
@@ -18,8 +19,9 @@ def MPI_rktFrm_to_ENU():
 
 
     # 2. Extract time (seconds) and DCM components
+    T0 = dt.datetime(2022, 11, 20, 17, 20)
     time_epoch_attitude = data_dict_attitude[f'Epoch'][0]
-    time_sec_attitude = stl.EpochTo_T0_Rocket(time_epoch_attitude, T0=time_epoch_attitude[0])
+    time_sec_attitude = stl.EpochTo_T0_Rocket(time_epoch_attitude, T0=T0)
 
     # [DCM elements]
     a11 = np.array(data_dict_attitude['a11'][0])
@@ -46,9 +48,12 @@ def MPI_rktFrm_to_ENU():
     dcm_a33 = CubicSpline(time_sec_attitude, a33)
 
     #loop over each MPI
+    
+
     for idx in range(4):
         time_epoch_MPI = data_dict_MPI[f'Epoch_MPI{idx+1}'][0]
-        time_sec_MPI = stl.EpochTo_T0_Rocket(time_epoch_MPI, T0=time_epoch_attitude[0])
+        time_sec_MPI = stl.EpochTo_T0_Rocket(time_epoch_MPI, T0=T0)
+
 
 
         # 4. interp DCM as a fxn of time

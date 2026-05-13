@@ -40,6 +40,7 @@ def ExB_Drift():
     #turn dt into secs
     T0 = dt.datetime(2022, 11, 20, 17, 20)
 
+
     B_Epoch_T0 = stl.EpochTo_T0_Rocket(data_dict_B['Epoch'][0], T0=T0)
     E_Epoch_T0 = stl.EpochTo_T0_Rocket(data_dict_E['Epoch'][0], T0=T0)
 
@@ -60,16 +61,21 @@ def ExB_Drift():
     # Prepare output
     example_attrs = {
         'LABLAXIS': 'ExB Drift Velocity',
-        'DEPEND_0': 'Epoch',
+        'DEPEND_0': 'Epoch_T0',
         'UNITS': 'm/s'
     }
 
     data_dict_output = {
         'Epoch': [data_dict_B['Epoch'][0], data_dict_B['Epoch'][1]],
+        'Epoch_T0': [B_Epoch_T0, deepcopy(example_attrs)],
         'Drift_E': [Drift[0], deepcopy(example_attrs)],
         'Drift_N': [Drift[1], deepcopy(example_attrs)],
         'Drift_U': [Drift[2], deepcopy(example_attrs)]
     }
+
+    data_dict_output['Drift_E'][1]['LABAXIS'] = 'VxB_East'
+    data_dict_output['Drift_N'][1]['LABAXIS'] = 'VxB_North'
+    data_dict_output['Drift_U'][1]['LABAXIS'] = 'VxB_Up'
 
     outputPath = r'C:\Users\riskh\OneDrive - University of Iowa\ACESII-MPI Project\Convection Velocity\L3\\'
     file_out_name = 'ACESII_36364_L3_ExB_Drift_ENU.cdf'

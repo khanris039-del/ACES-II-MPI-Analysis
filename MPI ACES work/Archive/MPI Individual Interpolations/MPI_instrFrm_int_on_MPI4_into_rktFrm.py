@@ -13,10 +13,10 @@ import datetime as dt
 
 ### MAIN FXN ###
 
-def MPI_instrFrm_on_MPI4_timebase():
+def MPI_instrFrm_int_on_MPI4_into_rktFrm():
     # [1] load in the MPI data
-    path_to_data = r'C:\Users\riskh\OneDrive - University of Iowa\ACESII-MPI Project\L1 instr\\'
-    file_name = glob(path_to_data + "ACES_II_36364_l1_MPI_instrFrm.cdf")[0]
+    path_to_data = r'C:\Users\riskh\OneDrive - University of Iowa\ACESII-MPI Project\L2 Rocket\\'
+    file_name = glob(path_to_data + 'ACESII_36364_l2_MPI_rktFrm.cdf')[0]
     data_dict = stl.loadDictFromFile(file_name)
 
     # prepare the outputs
@@ -43,7 +43,7 @@ def MPI_instrFrm_on_MPI4_timebase():
         #interpolate the Vx and Vy
 
         for idx2, element in enumerate(['x', 'y']):
-            interp = np.interp(time_sec_MPI4, time_sec_MPI, data_dict[f'V{element}_instr_MPI{idx+1}'][0])
+            interp = np.interp(time_sec_MPI4, time_sec_MPI, data_dict[f'V{element}_rktFrm_MPI{idx+1}'][0])
 
             if idx2 == 0:
                 MPI_vx[idx]= interp
@@ -71,8 +71,8 @@ def MPI_instrFrm_on_MPI4_timebase():
 
         data_dict_output = {**data_dict_output,
                         **{
-                            f'Vx_MPI{idx+1}_instrFrm_onto_MPI4': [MPI_vx[idx], deepcopy(example_attrs)],
-                            f'Vy_MPI{idx+1}_instrFrm_onto_MPI4': [MPI_vy[idx], deepcopy(example_attrs)],
+                            f'Vx_MPI{idx+1}_rktFrm_onto_MPI4': [MPI_vx[idx], deepcopy(example_attrs)],
+                            f'Vy_MPI{idx+1}_rktFrm_onto_MPI4': [MPI_vy[idx], deepcopy(example_attrs)],
 
 
                         }
@@ -86,9 +86,9 @@ def MPI_instrFrm_on_MPI4_timebase():
             }
 
     # [5] write out the data
-    outputPath = r'C:\Users\riskh\OneDrive - University of Iowa\ACESII-MPI Project\L1 instr\\'
-    file_out_name = 'ACES_II_36364_l1_MPI_instrFrm_on4.cdf'
+    outputPath = r'C:\Users\riskh\OneDrive - University of Iowa\ACESII-MPI Project\L2 rkt\\'
+    file_out_name = 'ACES_II_36364_l2_MPI_instrFrm_int_on_MPI4_into_rktFrm.cdf'
     stl.outputCDFdata(outputPath=outputPath + file_out_name, data_dict=data_dict_output)
 
 ### EXECUTE ###
-MPI_instrFrm_on_MPI4_timebase()
+MPI_instrFrm_int_on_MPI4_into_rktFrm()
